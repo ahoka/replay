@@ -1,0 +1,22 @@
+Replay
+
+Sucky music player using mpg123 decoder and libao for output.
+
+Requirements:
+  - mpg123 (recent-ish, tested with 1.5)
+  - libao
+  - cmake or bmake or autotools
+
+Build:
+a) cmake
+  cd replay/
+  mkdir build
+  cd build
+  cmake ../
+  make
+b) autotools
+  cd replay
+  ./autogen.sh
+  ./configure
+  make
+  make install

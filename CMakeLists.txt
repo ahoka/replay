@@ -1,0 +1,35 @@
+# CMake project file
+# Let's avoid autohell at all costs!
+
+# maybe could be lower
+cmake_minimum_required(VERSION 2.6)
+project (REPLAY)
+
+include(FindPkgConfig)
+INCLUDE(CheckIncludeFiles)
+
+IF(CMAKE_SYSTEM_NAME MATCHES NetBSD)
+SET(CURSES_NEED_NCURSES TRUE)
+ENDIF(CMAKE_SYSTEM_NAME MATCHES NetBSD)
+
+FIND_PACKAGE(Curses REQUIRED)
+
+pkg_check_modules(MPG123 REQUIRED libmpg123)
+pkg_check_modules(LIBAO REQUIRED ao)
+
+LINK_DIRECTORIES (
+	${CURSES_LIBRARY_DIRS}
+        ${MPG123_LIBRARY_DIRS}
+	${LIBAO_LIBRARY_DIRS} )
+
+INCLUDE_DIRECTORIES (
+	${CURSES_INCLUDE_DIRS}
+	${MPG123_INCLUDE_DIRS}
+	${LIBAO_INCLUDE_DIRS} )
+
+CHECK_INCLUDE_FILES( curses.h HAVE_CURSES_H)
+CHECK_INCLUDE_FILES( ncurses.h HAVE_NCURSES_H)
+
+CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/config.h.cmake ${CMAKE_BINARY_DIR}/src/config.h)
+
+ADD_SUBDIRECTORY (src)
